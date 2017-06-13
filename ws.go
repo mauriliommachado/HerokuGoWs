@@ -42,8 +42,7 @@ func GetAlunos(w http.ResponseWriter, e *http.Request) {
 		var fone string
 		var dataNascimento time.Time
 		err = rows.Scan(&id, &cpf, &nome, &email, &fone, &dataNascimento)
-
-		io.WriteString(w, string(id)+cpf+nome+email+fone+dataNascimento.String())
+		fmt.Fprintln(w,string(id)+cpf+nome+email+fone+dataNascimento.String())
 	}
 }
 
