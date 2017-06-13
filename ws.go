@@ -10,6 +10,7 @@ import (
 	_ "github.com/lib/pq"
 	"database/sql"
 	"time"
+	"encoding/json"
 )
 
 func HelloServer(w http.ResponseWriter, req *http.Request) {
@@ -43,9 +44,16 @@ func GetAlunos(w http.ResponseWriter, e *http.Request) {
 		var fone string
 		var dataNascimento time.Time
 		err = rows.Scan(&id, &cpf, &nome, &email, &fone, &dataNascimento)
-		respBody +=string(id)+cpf+nome+email+fone+dataNascimento.String()+"\n"
+		respBody += string(id) + cpf + nome + email + fone + dataNascimento.String() + "\n"
 	}
-	io.WriteString(w, "oi"+respBody)
+	json, _ := json.Marshal(respBody)
+	ResponseWithJSON(w, json, http.StatusOK)
+}
+
+func ResponseWithJSON(w http.ResponseWriter, json []byte, code int) {
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.WriteHeader(code)
+	w.Write(json)
 }
 
 func main() {
