@@ -19,7 +19,7 @@ type Aluno struct {
 	nome           string
 	email          string
 	fone           string
-	dataNascimento time.Time
+	dataNascimento string
 }
 
 func HelloServer(w http.ResponseWriter, req *http.Request) {
@@ -41,7 +41,6 @@ func GetAlunos(w http.ResponseWriter, e *http.Request) {
 	}
 	defer db.Close()
 	rows, err := db.Query("SELECT * FROM escola.alunos")
-	log.Println(rows)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -60,7 +59,7 @@ func GetAlunos(w http.ResponseWriter, e *http.Request) {
 			nome,
 			email,
 			fone,
-			dataNascimento,
+			dataNascimento.String(),
 		})
 		alunos = append(alunos, Aluno{
 			id,
@@ -68,8 +67,10 @@ func GetAlunos(w http.ResponseWriter, e *http.Request) {
 			nome,
 			email,
 			fone,
-			dataNascimento,
+			dataNascimento.String(),
 		})
+		log.Println("tamanho alunos %d" ,len(alunos))
+		log.Println(alunos)
 	}
 	json, err := json.Marshal(alunos)
 	if err != nil {
