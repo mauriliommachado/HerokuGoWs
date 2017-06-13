@@ -45,7 +45,7 @@ func GetAlunos(w http.ResponseWriter, e *http.Request) {
 		err = rows.Scan(&id, &cpf, &nome, &email, &fone, &dataNascimento)
 		respBody +=string(id)+cpf+nome+email+fone+dataNascimento.String()+"\n"
 	}
-	io.WriteString(w,respBody)
+	io.WriteString(w, "oi"+respBody)
 }
 
 func main() {
