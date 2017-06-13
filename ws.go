@@ -13,6 +13,15 @@ import (
 	"encoding/json"
 )
 
+type Aluno struct {
+	id             int
+	cpf            string
+	nome           string
+	email          string
+	fone           string
+	dataNascimento time.Time
+}
+
 func HelloServer(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, "hello, "+req.URL.Query().Get(":name")+"!\n")
 }
@@ -35,7 +44,7 @@ func GetAlunos(w http.ResponseWriter, e *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	var respBody string
+	var alunos []Aluno
 	for rows.Next() {
 		var id int
 		var cpf string
@@ -44,9 +53,10 @@ func GetAlunos(w http.ResponseWriter, e *http.Request) {
 		var fone string
 		var dataNascimento time.Time
 		err = rows.Scan(&id, &cpf, &nome, &email, &fone, &dataNascimento)
-		respBody += string(id) + cpf + nome + email + fone + dataNascimento.String() + "\n"
+		alunos = append(alunos, Aluno{id: id, nome: nome,
+			cpf:cpf, email: email, fone: fone, dataNascimento: dataNascimento, })
 	}
-	json, _ := json.Marshal(respBody)
+	json, _ := json.Marshal(alunos)
 	ResponseWithJSON(w, json, http.StatusOK)
 }
 
