@@ -77,7 +77,7 @@ func GetAlunos(w http.ResponseWriter, e *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	ResponseWithJSON(w, json, http.StatusOK)
+	fmt.Fprintln(w,alunos)
 }
 
 func ResponseWithJSON(w http.ResponseWriter, json []byte, code int) {
