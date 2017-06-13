@@ -72,12 +72,12 @@ func GetAlunos(w http.ResponseWriter, e *http.Request) {
 		log.Println("tamanho alunos" ,len(alunos))
 		log.Println(alunos)
 	}
-	json, err := json.Marshal(alunos)
 	log.Println(json)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Fprintln(w,alunos)
+	res1B, _ := json.Marshal(alunos)
+	fmt.Println(w,string(res1B))
 }
 
 func ResponseWithJSON(w http.ResponseWriter, json []byte, code int) {
