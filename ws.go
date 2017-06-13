@@ -9,6 +9,7 @@ import (
 	"fmt"
 	_ "github.com/lib/pq"
 	"database/sql"
+	"time"
 )
 
 func HelloServer(w http.ResponseWriter, req *http.Request) {
@@ -23,21 +24,40 @@ func Poti(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, "<h1>TE AMO MEU AMOR!!<h1>")
 }
 
-func main() {
+func GetAlunos(w http.ResponseWriter, e *http.Request) {
 	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
+	rows, err := db.Query("SELECT * FROM escola.alunos")
+	if err != nil {
+		log.Fatal(err)
+	}
+	for rows.Next() {
+		var id int
+		var cpf string
+		var nome string
+		var email string
+		var fone string
+		var dataNascimento time.Time
+		err = rows.Scan(&id, &cpf, &nome, &email, &fone, &dataNascimento)
+
+		io.WriteString(w, string(id)+cpf+nome+email+fone+dataNascimento.String())
+	}
+}
+
+func main() {
 	m := pat.New()
+	m.Get("/aluno", http.HandlerFunc(GetAlunos))
 	m.Get("/", http.HandlerFunc(HelloWorld))
 	m.Get("/hello/:name", http.HandlerFunc(HelloServer))
 	m.Get("/poti", http.HandlerFunc(Poti))
 	// Register this pat with the default serve mux so that other packages
 	// may also be exported. (i.e. /debug/pprof/*)
 	http.Handle("/", m)
-	fmt.Println("listening..."+GetPort())
-	err = http.ListenAndServe(GetPort(), nil)
+	fmt.Println("listening..." + GetPort())
+	err := http.ListenAndServe(GetPort(), nil)
 
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
