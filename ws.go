@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 	"fmt"
+	_ "github.com/lib/pq"
+	"database/sql"
 )
 
 func HelloServer(w http.ResponseWriter, req *http.Request) {
@@ -22,6 +24,11 @@ func Poti(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
+	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
 	m := pat.New()
 	m.Get("/", http.HandlerFunc(HelloWorld))
 	m.Get("/hello/:name", http.HandlerFunc(HelloServer))
