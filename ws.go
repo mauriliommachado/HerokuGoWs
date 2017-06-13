@@ -53,10 +53,19 @@ func GetAlunos(w http.ResponseWriter, e *http.Request) {
 		var fone string
 		var dataNascimento time.Time
 		err = rows.Scan(&id, &cpf, &nome, &email, &fone, &dataNascimento)
-		alunos = append(alunos, Aluno{id: id, nome: nome,
-			cpf:cpf, email: email, fone: fone, dataNascimento: dataNascimento, })
+		alunos = append(alunos, Aluno{
+			id,
+			cpf,
+			nome,
+			email,
+			fone,
+			dataNascimento,
+		})
 	}
-	json, _ := json.Marshal(alunos)
+	json, err := json.Marshal(alunos)
+	if err != nil {
+		log.Fatal(err)
+	}
 	ResponseWithJSON(w, json, http.StatusOK)
 }
 
