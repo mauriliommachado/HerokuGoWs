@@ -72,7 +72,6 @@ func GetAlunos(w http.ResponseWriter, e *http.Request) {
 		log.Println("tamanho alunos" ,len(alunos))
 		log.Println(alunos)
 	}
-	log.Println(json)
 	if err != nil {
 		log.Fatal(err)
 	}
