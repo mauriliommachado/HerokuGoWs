@@ -69,10 +69,11 @@ func GetAlunos(w http.ResponseWriter, e *http.Request) {
 			fone,
 			dataNascimento.String(),
 		})
-		log.Println("tamanho alunos %d" ,len(alunos))
+		log.Println("tamanho alunos" ,len(alunos))
 		log.Println(alunos)
 	}
 	json, err := json.Marshal(alunos)
+	log.Println(json)
 	if err != nil {
 		log.Fatal(err)
 	}
