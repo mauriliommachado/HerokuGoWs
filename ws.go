@@ -37,7 +37,7 @@ func main() {
 	// may also be exported. (i.e. /debug/pprof/*)
 	http.Handle("/", m)
 	fmt.Println("listening..."+GetPort())
-	err := http.ListenAndServe(GetPort(), nil)
+	err = http.ListenAndServe(GetPort(), nil)
 
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
