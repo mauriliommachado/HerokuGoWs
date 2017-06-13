@@ -18,7 +18,7 @@ func HelloWorld(w http.ResponseWriter, req *http.Request) {
 }
 
 func Poti(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "TE AMO MEU AMOR!!")
+	io.WriteString(w, "<h1>TE AMO MEU AMOR!!<h1>")
 }
 
 func main() {
