@@ -41,6 +41,7 @@ func GetAlunos(w http.ResponseWriter, e *http.Request) {
 	}
 	defer db.Close()
 	rows, err := db.Query("SELECT * FROM escola.alunos")
+	log.Println(rows)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -53,6 +54,14 @@ func GetAlunos(w http.ResponseWriter, e *http.Request) {
 		var fone string
 		var dataNascimento time.Time
 		err = rows.Scan(&id, &cpf, &nome, &email, &fone, &dataNascimento)
+		log.Println(Aluno{
+			id,
+			cpf,
+			nome,
+			email,
+			fone,
+			dataNascimento,
+		})
 		alunos = append(alunos, Aluno{
 			id,
 			cpf,
