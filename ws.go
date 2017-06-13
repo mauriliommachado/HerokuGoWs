@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"fmt"
 )
 
 func HelloServer(w http.ResponseWriter, req *http.Request) {
@@ -23,10 +24,21 @@ func main() {
 	// Register this pat with the default serve mux so that other packages
 	// may also be exported. (i.e. /debug/pprof/*)
 	http.Handle("/", m)
-	err := http.ListenAndServe(os.Getenv("PORT"), nil)
+	fmt.Println("listening..."+GetPort())
+	err := http.ListenAndServe(GetPort(), nil)
+
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
 
 }
 
+func GetPort() string {
+	var port = os.Getenv("PORT")
+	// Set a default port if there is nothing in the environment
+	if port == "" {
+		port = "4747"
+		fmt.Println("INFO: No PORT environment variable detected, defaulting to " + port)
+	}
+	return ":" + port
+}
