@@ -34,6 +34,7 @@ func GetAlunos(w http.ResponseWriter, e *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	var respBody string
 	for rows.Next() {
 		var id int
 		var cpf string
@@ -42,8 +43,9 @@ func GetAlunos(w http.ResponseWriter, e *http.Request) {
 		var fone string
 		var dataNascimento time.Time
 		err = rows.Scan(&id, &cpf, &nome, &email, &fone, &dataNascimento)
-		fmt.Fprintln(w,string(id)+cpf+nome+email+fone+dataNascimento.String())
+		respBody +=string(id)+cpf+nome+email+fone+dataNascimento.String()+"\n"
 	}
+	io.WriteString(w,respBody)
 }
 
 func main() {
