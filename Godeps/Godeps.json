@@ -1,0 +1,11 @@
+{
+	"ImportPath": "github.com/gows",
+	"GoVersion": "go1.8",
+	"GodepVersion": "v79",
+	"Deps": [
+		{
+			"ImportPath": "github.com/bmizerany/pat",
+			"Rev": "c068ca2f0aacee5ac3681d68e4d0a003b7d1fd2c"
+		}
+	]
+}
