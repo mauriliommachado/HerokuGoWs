@@ -17,10 +17,15 @@ func HelloWorld(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, "Hello World!")
 }
 
+func Poti(w http.ResponseWriter, req *http.Request) {
+	io.WriteString(w, "TE AMO MEU AMOR!!")
+}
+
 func main() {
 	m := pat.New()
 	m.Get("/", http.HandlerFunc(HelloWorld))
 	m.Get("/hello/:name", http.HandlerFunc(HelloServer))
+	m.Get("/poti", http.HandlerFunc(Poti))
 	// Register this pat with the default serve mux so that other packages
 	// may also be exported. (i.e. /debug/pprof/*)
 	http.Handle("/", m)
